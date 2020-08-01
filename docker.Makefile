@@ -7,10 +7,10 @@ ROOT_DIR := $(subst .\,,$(ROOT_DIR))
 all: build test-e2e
 
 build:
-	$(DOCKER_BUILD) -t docker/github-actions-default --build-arg MAKE_TARGET=default .
+	$(DOCKER_BUILD) -t printesoi/docker-github-actions-default --build-arg MAKE_TARGET=default .
 
 image:
-	$(DOCKER_BUILD) -t docker/github-actions:$(TAG) --build-arg MAKE_TARGET=build .
+	$(DOCKER_BUILD) -t printesoi/docker-github-actions:$(TAG) --build-arg MAKE_TARGET=build .
 
 cli:
 	@$(call mkdir,bin)

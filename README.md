@@ -36,6 +36,7 @@ Builds and tags a docker image.
 |INPUT_BUILD_ARGS|no|Comma-delimited list of build-args|
 |INPUT_LABELS|no|Comma-delimited list of labels|
 |INPUT_CACHE_FROMS|no|Comma-delimited list of cache-froms|
+|INPUT_SECRETS|no|A YAML array containing secrets as id,src keys|
 
 See the tagging section for information on tag inputs
 

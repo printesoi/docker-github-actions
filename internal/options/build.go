@@ -6,9 +6,15 @@ import (
 	"time"
 
 	"github.com/caarlos0/env/v6"
+	"gopkg.in/yaml.v2"
 )
 
 const opencontainersLabelPrefix = "org.opencontainers.image"
+
+type Secret struct {
+	ID  string `json:"id"`
+	Src string `json:"src"`
+}
 
 // Build contains the parsed build action environment variables
 type Build struct {
@@ -20,6 +26,7 @@ type Build struct {
 	CacheFroms   []string
 	BuildArgs    []string
 	Labels       []string
+	Secrets      []Secret
 }
 
 // GetBuildOptions gets the login action environment variables
@@ -39,6 +46,13 @@ func GetBuildOptions() (Build, error) {
 
 	if labels := os.Getenv("INPUT_LABELS"); labels != "" {
 		build.Labels = strings.Split(labels, ",")
+	}
+
+	if secrets := os.Getenv("INPUT_SECRETS"); secrets != "" {
+		err := yaml.Unmarshal([]byte(secrets), &build.Secrets)
+		if err != nil {
+			return build, err
+		}
 	}
 
 	return build, nil

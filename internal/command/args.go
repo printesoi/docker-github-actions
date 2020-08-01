@@ -45,6 +45,10 @@ func BuildArgs(o options.Build, github options.GitHub, tags []string) []string {
 		args = append(args, "--build-arg", buildArg)
 	}
 
+	for _, secret := range o.Secrets {
+		args = append(args, "--secret", "id="+secret.ID+",src="+secret.Src)
+	}
+
 	return append(args, o.Path)
 }
 

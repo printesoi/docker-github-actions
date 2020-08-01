@@ -19,6 +19,7 @@ func TestGetBuildOptions(t *testing.T) {
 	_ = os.Setenv("INPUT_ADD_GIT_LABELS", "false")
 	_ = os.Setenv("INPUT_TARGET", "target")
 	_ = os.Setenv("INPUT_ALWAYS_PULL", "true")
+	_ = os.Setenv("INPUT_SECRETS", "- id: id1\n  src: /my/path1\n- id: id2\n  src: /my/path2")
 
 	o, err := GetBuildOptions()
 
@@ -31,6 +32,16 @@ func TestGetBuildOptions(t *testing.T) {
 		BuildArgs:  []string{"buildarg1=b1", "buildarg2=b2"},
 		Labels:     []string{"label1=l1", "label2=l2"},
 		CacheFroms: []string{"foo/bar-1", "foo/bar-2"},
+		Secrets: []Secret{
+			{
+				ID:  "id1",
+				Src: "/my/path1",
+			},
+			{
+				ID:  "id2",
+				Src: "/my/path2",
+			},
+		},
 	}, o)
 }
 

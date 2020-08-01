@@ -85,6 +85,19 @@ func TestBuildArgs(t *testing.T) {
 			},
 			expected: []string{"build", "--progress", "plain", "--cache-from", "foo/bar-1", "--cache-from", "foo/bar-2", "."},
 		},
+		{
+			name: "with-secrets",
+			build: options.Build{
+				Path: ".",
+				Secrets: []options.Secret{
+					{
+						ID:  "id1",
+						Src: "/my/path1",
+					},
+				},
+			},
+			expected: []string{"build", "--progress", "plain", "--secret", "id=id1,src=/my/path1", "."},
+		},
 	}
 	for _, tc := range testCases {
 		tc := tc

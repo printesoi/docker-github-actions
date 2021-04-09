@@ -47,6 +47,13 @@ func TestGetTags(t *testing.T) {
 			ref:        GitReference{GitRefHead, "master"},
 		},
 		{
+			name:       "main-branch",
+			tagWithRef: true,
+			tags:       "tag1,tag2",
+			expected:   []string{"my/repo:tag1", "my/repo:tag2", "my/repo:latest"},
+			ref:        GitReference{GitRefHead, "main"},
+		},
+		{
 			name:       "different-branch",
 			tagWithRef: true,
 			tags:       "tag1,tag2",
@@ -73,6 +80,14 @@ func TestGetTags(t *testing.T) {
 			tags:       "tag1,tag2",
 			expected:   []string{"my/repo:tag1", "my/repo:tag2", "my/repo:latest"},
 			ref:        GitReference{GitRefHead, "master"},
+			sha:        "1234567890",
+		},
+		{
+			name:       "main-branch-with-sha",
+			tagWithRef: true,
+			tags:       "tag1,tag2",
+			expected:   []string{"my/repo:tag1", "my/repo:tag2", "my/repo:latest"},
+			ref:        GitReference{GitRefHead, "main"},
 			sha:        "1234567890",
 		},
 		{

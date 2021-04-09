@@ -8,28 +8,34 @@ import (
 )
 
 func TestGetGitHubOptions(t *testing.T) {
-	_ = os.Setenv("GITHUB_ACTIONS", "true")
-	_ = os.Setenv("GITHUB_WORKFLOW", "workflow")
-	_ = os.Setenv("GITHUB_ACTION", "action")
-	_ = os.Setenv("GITHUB_REPOSITORY", "repository")
-	_ = os.Setenv("GITHUB_EVENT_NAME", "event-name")
-	_ = os.Setenv("GITHUB_SHA", "sha")
-	_ = os.Setenv("GITHUB_REF", "refs/heads/master")
+	testBranch := func(branchName string) {
+		_ = os.Setenv("GITHUB_ACTIONS", "true")
+		_ = os.Setenv("GITHUB_WORKFLOW", "workflow")
+		_ = os.Setenv("GITHUB_ACTION", "action")
+		_ = os.Setenv("GITHUB_REPOSITORY", "repository")
+		_ = os.Setenv("GITHUB_EVENT_NAME", "event-name")
+		_ = os.Setenv("GITHUB_SHA", "sha")
+		_ = os.Setenv("GITHUB_REF", "refs/heads/"+branchName)
 
-	github, err := GetGitHubOptions()
-	assert.NilError(t, err)
-	assert.DeepEqual(t, GitHub{
-		RunInActions: true,
-		Workflow:     "workflow",
-		Action:       "action",
-		Repository:   "repository",
-		EventName:    "event-name",
-		Sha:          "sha",
-		Reference: GitReference{
-			Type: GitRefHead,
-			Name: "master",
-		},
-	}, github)
+		github, err := GetGitHubOptions()
+		assert.NilError(t, err)
+		assert.DeepEqual(t, GitHub{
+			RunInActions: true,
+			Workflow:     "workflow",
+			Action:       "action",
+			Repository:   "repository",
+			EventName:    "event-name",
+			Sha:          "sha",
+			Reference: GitReference{
+				Type: GitRefHead,
+				Name: branchName,
+			},
+		}, github)
+	}
+
+	for _, b := range []string{"master", "main"} {
+		testBranch(b)
+	}
 }
 
 func TestParseGitRef(t *testing.T) {
@@ -44,6 +50,12 @@ func TestParseGitRef(t *testing.T) {
 			ref:          "refs/heads/master",
 			expectedType: GitRefHead,
 			expectedName: "master",
+		},
+		{
+			name:         "main-branch",
+			ref:          "refs/heads/main",
+			expectedType: GitRefHead,
+			expectedName: "main",
 		},
 		{
 			name:         "different-branch",

@@ -62,7 +62,7 @@ func GetTags(registry string, github GitHub) ([]string, error) {
 	} else if withRef {
 		switch github.Reference.Type {
 		case GitRefHead:
-			if github.Reference.Name == "master" {
+			if github.Reference.Name == "master" || github.Reference.Name == "main" {
 				tags = append(tags, toFullTag(registry, repo, "latest"))
 			} else {
 				tags = appendGitRefTag(tags, registry, repo, github.Reference.Name)

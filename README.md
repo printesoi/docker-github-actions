@@ -1,13 +1,13 @@
-# github-actions
-The core code base for Docker's GitHub Actions (https://github.com/features/actions). This code is used to build the docker/github-actions image that provides the functionality used by the published Docker GitHub Action:
+# docker-github-actions
 
-* [Build and push Docker images action](https://github.com/docker/build-push-action)
+This is fork of [docker/github-actions](https://github.com/docker/github-actions) with the following changes:
 
-`github-actions` runs a command line tool that shells out to docker to perform the various functions. Parameters are supplied to `github-actions` using environment variables in the form described by the GitHub Actions documentation. `github-actions` uses some of the default GitHub Actions environment variables as described in the individual commands section.
+- `INPUT_TAG_WITH_REF` handles the `main` branch the same as the `master` branch (this is needed since [Github renamed the default branch from `master`](https://github.com/github/renaming))
+- Add `INPUT_SECRETS` in order to allow passing secrets to docker build
 
 ## Commands
 
-Commands can be called using `docker run docker/github-actions {command}`
+Commands can be called using `docker run docker-github-actions {command}`
 
 ### login
 
@@ -76,7 +76,7 @@ Same as the login and build commands with the addition of
 
 ## Tagging
 
-Tagging of images can be set manually, left to `github-actions` to automate, or a combination of the both.
+Tagging of images can be set manually, left to `docker-github-actions` to automate, or a combination of the both.
 
 There are 4 input variables used for tagging
 
@@ -85,15 +85,15 @@ There are 4 input variables used for tagging
 |INPUT_REGISTRY|no|Registry server to tag with|
 |INPUT_REPOSITORY|yes|Repository to tag with|
 |INPUT_TAGS|no|Hard coded comma-delimited list of tags|
-|INPUT_TAG_WITH_REF|no|If true then `github-actions` will add tags depending on the git ref automatically as described below|
-|INPUT_TAG_WITH_SHA|no|If true then `github-actions` will add a tag in the form `sha-{git-short-sha}`|
+|INPUT_TAG_WITH_REF|no|If true then `docker-github-actions` will add tags depending on the git ref automatically as described below|
+|INPUT_TAG_WITH_SHA|no|If true then `docker-github-actions` will add a tag in the form `sha-{git-short-sha}`|
 
 If `INPUT_REGISTRY` is set then all tags are prefixed with `{INPUT_REGISTRY}/{INPUT_REPOSITORY}:`.
 If not then all tags are prefixed with `{INPUT_REPOSITORY}:`
 
-Auto tags depend on the git reference that the run is associated with. The reference is passed to `github-actions` using the GitHub actions `GITHUB_REF` enviroment variable.
+Auto tags depend on the git reference that the run is associated with. The reference is passed to `docker-github-actions` using the GitHub actions `GITHUB_REF` enviroment variable.
 
-If the reference is `refs/heads/{branch-name}` then the tag `{branch-name}` is added. For the master branch the `{branch-name}` is replaced with `latest`.
+If the reference is `refs/heads/{branch-name}` then the tag `{branch-name}` is added. For the `master` and `main` branches the `{branch-name}` is replaced with `latest`.
 
 If the reference is `refs/pull/{pr}` then the tag `pr-{pr}` is added.
 
@@ -134,16 +134,16 @@ Then the image will be tagged with:
 ```
 myregistry/myorg/myimage:foo
 myregistry/myorg/myimage:bar
-myregistry/myorg/myimage:lastest
+myregistry/myorg/myimage:latest
 myregistry/myorg/myimage:sha-c6df8c6
 ```
 
-## Building github-actions
+## Building docker-github-actions
 The code is written in Go v1.13 with `go mod`. It can be built locally using the `Makefile` or in docker using the `docker.Makefile`.
 
-`make -f docker.Makefile` will build the code, check the linting using golangci-lint, run the go tests, and build the image with a tag of docker/github-actions:latest
+`make -f docker.Makefile` will build the code, check the linting using golangci-lint, run the go tests, and build the image with a tag of docker-github-actions:latest
 
-`make -f docker.Makefile image` will build the github-actions image without a tag and without running test or lint checking
+`make -f docker.Makefile image` will build the docker-github-actions image without a tag and without running test or lint checking
 
 `make -f docker.Makefile cli` will build the cli and copy it to `./bin/github-actions`
 

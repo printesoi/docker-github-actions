@@ -3,7 +3,7 @@ package command
 import (
 	"testing"
 
-	"github.com/docker/github-actions/internal/options"
+	"github.com/printesoi/docker-github-actions/internal/options"
 	"gotest.tools/v3/assert"
 )
 

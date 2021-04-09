@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/docker/github-actions/internal/command"
+	"github.com/printesoi/docker-github-actions/internal/command"
 	"github.com/spf13/cobra"
 )
 

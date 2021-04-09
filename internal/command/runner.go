@@ -5,7 +5,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/docker/github-actions/internal/options"
+	"github.com/printesoi/docker-github-actions/internal/options"
 )
 
 // Runner executes standard commands

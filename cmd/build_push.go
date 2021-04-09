@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/docker/github-actions/internal/command"
-	"github.com/docker/github-actions/internal/options"
+	"github.com/printesoi/docker-github-actions/internal/command"
+	"github.com/printesoi/docker-github-actions/internal/options"
 )
 
 func buildPush(cmd command.Runner) error {

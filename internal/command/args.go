@@ -1,7 +1,7 @@
 package command
 
 import (
-	"github.com/docker/github-actions/internal/options"
+	"github.com/printesoi/docker-github-actions/internal/options"
 )
 
 // LoginArgs converts login options into the cli arguments used to call `docker login`

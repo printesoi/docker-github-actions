@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/docker/github-actions/internal/command"
-	"github.com/docker/github-actions/internal/options"
+	"github.com/printesoi/docker-github-actions/internal/command"
+	"github.com/printesoi/docker-github-actions/internal/options"
 )
 
 func login(cmd command.Runner) error {

@@ -22,7 +22,7 @@ jobs:
       run: DOCKER_BUILDKIT=1 make -f docker.Makefile all
 
     - name: build and push image
-      uses: docker/build-push-action@v1
+      uses: printesoi/build-push-action@v1
       env:
         DOCKER_BUILDKIT: 1
       with:
